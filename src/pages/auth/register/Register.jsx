@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import './Register.scss';
 import Input from '../../../components/input/Input';
 import Button from '../../../components/button/Button';
-import { Utils } from '../../../services/api/utils/utils.service';
+import { Utils } from '../../../services/utils/utils.service';
 import { authService } from '../../../services/api/auth/auth.service';
 
 const Register = () => {
