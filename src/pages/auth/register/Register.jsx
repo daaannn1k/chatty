@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
-import './Register.scss';
-import Input from '../../../components/input/Input';
-import Button from '../../../components/button/Button';
-import { Utils } from '../../../services/utils/utils.service';
-import { authService } from '../../../services/api/auth/auth.service';
+import '@pages/auth/register/Register.scss';
+import Button from '@components/button/Button';
+import Input from '@components/input/Input'
+import { authService } from '@services/api/auth/auth.service';
+import { Utils } from '@services/utils/utils.service';
+
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -15,6 +17,7 @@ const Register = () => {
   const [alertType, setAlertType] = useState('');
   const [hasError, setHasError] = useState(false);
   const [user, setUser] = useState('');
+  const navigate = useNavigate();
 
   const registerUser = async (event) => {
     setLoading(true);
@@ -38,10 +41,10 @@ const Register = () => {
   useEffect(() => {
     if(loading && !user) return;
     if(user) {
-      console.log('Navigate to streams page');
+      navigate('/app/social/streams');
       setLoading(false);
     } 
-  }, [loading, user])
+  }, [loading, user, navigate]);
 
   return (
       <div className="auth-inner">
