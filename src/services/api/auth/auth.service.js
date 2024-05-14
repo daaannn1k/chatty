@@ -2,7 +2,6 @@ import axios from '@services/axios';
 
 class AuthService {
   async signUp(body) {
-    console.log(process.env.REACT_APP_BASE_ENDPOINT);
     const response = await axios.post('/signup', body);
     return response;
   }
