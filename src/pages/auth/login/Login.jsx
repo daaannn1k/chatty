@@ -6,6 +6,7 @@ import '@pages/auth/login/Login.scss';
 import Button from '@components/button/Button';
 import Input from '@components/input/Input'
 import { authService } from '@services/api/auth/auth.service';
+import useLocalStorage from '@hooks/useLocalStorage';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -17,6 +18,7 @@ const Login = () => {
   const [alertType, setAlertType] = useState('');
   const [user, setUser] = useState('');
 
+  const { setItem } = useLocalStorage();
   const navigate = useNavigate();
 
   const loginUser = async (event) => {
@@ -25,7 +27,8 @@ const Login = () => {
 
     try {
       const result = await authService.signIn({username, password});
-      setKeepLoggedIn(keepLoggedIn);
+      setItem('username', result?.data?.user?.username);
+      setItem('keepLoggedIn', keepLoggedIn);
       setHasError(false);
       setAlertType('alert-success');
       setUser(result.data.user);
@@ -41,7 +44,7 @@ const Login = () => {
     if(loading && !user) return;
     if(user) {
       setLoading(false);
-      navigate('/app/social/streams')
+      navigate('/app/social/streams');
     } 
   }, [loading, user, navigate])
 
