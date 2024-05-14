@@ -6,7 +6,7 @@ import Button from '@components/button/Button';
 import Input from '@components/input/Input'
 import { authService } from '@services/api/auth/auth.service';
 import { Utils } from '@services/utils/utils.service';
-
+import useLocalStorage from '@hooks/useLocalStorage';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -17,6 +17,8 @@ const Register = () => {
   const [alertType, setAlertType] = useState('');
   const [hasError, setHasError] = useState(false);
   const [user, setUser] = useState('');
+
+  const { setItem } = useLocalStorage();
   const navigate = useNavigate();
 
   const registerUser = async (event) => {
@@ -27,9 +29,11 @@ const Register = () => {
       const avatarColor = Utils.avatarColor();
       const avatarImage = Utils.generateAvatar(username.charAt(0).toUpperCase(), avatarColor);
       const result = await authService.signUp({ username, password, email, avatarColor, avatarImage });
+      setItem('username', result?.data?.user?.username);
+      setItem('keepLoggedIn', true);
       setHasError(false);
       setAlertType('alert-success');
-      setUser(result.data.user);
+      setUser(result?.data?.user);
     } catch (error) {
       setLoading(false);
       setHasError(true);
