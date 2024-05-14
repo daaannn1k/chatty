@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import '@pages/auth/register/Register.scss';
 import Button from '@components/button/Button';
@@ -7,6 +8,7 @@ import Input from '@components/input/Input'
 import { authService } from '@services/api/auth/auth.service';
 import { Utils } from '@services/utils/utils.service';
 import useLocalStorage from '@hooks/useLocalStorage';
+import useSessionStorage from '@hooks/useSessionStorage';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -18,6 +20,8 @@ const Register = () => {
   const [hasError, setHasError] = useState(false);
   const [user, setUser] = useState('');
 
+  const dispatch = useDispatch();
+  const { setItem: setItemSessionStorage } = useSessionStorage();
   const { setItem } = useLocalStorage();
   const navigate = useNavigate();
 
@@ -33,7 +37,7 @@ const Register = () => {
       setItem('keepLoggedIn', true);
       setHasError(false);
       setAlertType('alert-success');
-      setUser(result?.data?.user);
+      Utils.dispatchUser(result, setItemSessionStorage, dispatch, setUser);
     } catch (error) {
       setLoading(false);
       setHasError(true);
