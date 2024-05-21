@@ -1,5 +1,4 @@
 import axios from '@services/axios';
-
 class AuthService {
   async signUp(body) {
     const response = await axios.post('/signup', body);
@@ -18,6 +17,16 @@ class AuthService {
 
   async resetPassword(body, token) {
     const response = await axios.post(`/reset-password/${token}`, body);
+    return response;
+  }
+
+  async signOut() {
+    const response = await axios.get('/signout');
+    return response;
+  }
+
+  async checkCurrentUser() {
+    const response = await axios.get('/currentuser');
     return response;
   }
 }

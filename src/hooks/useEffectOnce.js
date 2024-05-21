@@ -6,7 +6,7 @@ const useEffectOnce = (callback) => {
   useEffect(() => {
     if(!calledOnce.current) {
       callback();
-      callback.current = true;
+      calledOnce.current = true;
     } 
   }, [callback]);
 };

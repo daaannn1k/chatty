@@ -23,6 +23,7 @@ export const userSlice = createSlice({
   },
 });
 
+export const getState = (state) => state.user;
 
 export const { addUser, clearUser, updateUserProfile } = userSlice.actions;
 

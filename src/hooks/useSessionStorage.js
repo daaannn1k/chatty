@@ -1,17 +1,17 @@
 import { useCallback } from 'react';
 
 const useSessionStorage = () => {
-  const getItem = useCallback((key) => {
+  const getItemST = useCallback((key) => {
     const item = window.sessionStorage.getItem(key);
     return item ? JSON.parse(item): '';
   }, [])
-  const setItem = useCallback((key, newValue) => {
+  const setItemST = useCallback((key, newValue) => {
     window.sessionStorage.setItem(key, JSON.stringify(newValue));
   }, []);
-  const removeItem = useCallback((key) => {
-    window.sessionStorage.setItem(key);
+  const removeItemST = useCallback((key) => {
+    window.sessionStorage.removeItem(key);
   }, []);
-  return { getItem, setItem, removeItem };
+  return { getItemST, setItemST, removeItemST };
 };
 
 export default useSessionStorage;
