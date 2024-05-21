@@ -22,8 +22,8 @@ const Login = () => {
   const [user, setUser] = useState('');
 
   const dispatch = useDispatch();
-  const { setItem } = useLocalStorage();
-  const { setItem: setItemSessionStorage } = useSessionStorage();
+  const { setItemLS } = useLocalStorage();
+  const { setItemST } = useSessionStorage();
   const navigate = useNavigate();
 
   const loginUser = async (event) => {
@@ -32,11 +32,11 @@ const Login = () => {
 
     try {
       const result = await authService.signIn({username, password});
-      setItem('username', result?.data?.user?.username);
-      setItem('keepLoggedIn', keepLoggedIn);
+      setItemLS('username', result?.data?.user?.username);
+      setItemLS('keepLoggedIn', keepLoggedIn);
       setHasError(false);
       setAlertType('alert-success');
-      Utils.dispatchUser(result, setItemSessionStorage, dispatch, setUser);
+      Utils.dispatchUser(result, setItemST, dispatch, setUser);
     } catch (error) {
       setLoading(false);
       setHasError(true);

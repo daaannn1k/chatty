@@ -21,8 +21,8 @@ const Register = () => {
   const [user, setUser] = useState('');
 
   const dispatch = useDispatch();
-  const { setItem: setItemSessionStorage } = useSessionStorage();
-  const { setItem } = useLocalStorage();
+  const { setItemST } = useSessionStorage();
+  const { setItemLS } = useLocalStorage();
   const navigate = useNavigate();
 
   const registerUser = async (event) => {
@@ -33,11 +33,11 @@ const Register = () => {
       const avatarColor = Utils.avatarColor();
       const avatarImage = Utils.generateAvatar(username.charAt(0).toUpperCase(), avatarColor);
       const result = await authService.signUp({ username, password, email, avatarColor, avatarImage });
-      setItem('username', result?.data?.user?.username);
-      setItem('keepLoggedIn', true);
+      setItemLS('username', result?.data?.user?.username);
+      setItemLS('keepLoggedIn', true);
       setHasError(false);
       setAlertType('alert-success');
-      Utils.dispatchUser(result, setItemSessionStorage, dispatch, setUser);
+      Utils.dispatchUser(result, setItemST, dispatch, setUser);
     } catch (error) {
       setLoading(false);
       setHasError(true);
