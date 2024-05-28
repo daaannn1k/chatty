@@ -7,13 +7,14 @@ import useLocalStorage from '@hooks/useLocalStorage';
 import { useNavigate } from 'react-router-dom';
 import { Utils } from '@services/utils/utils.service';
 
+
 const AuthTabs = () => {
   const [type, setType] = useState('Sign In');
   const [environment, setEnvironment] = useState('');
-  const { getItemLS } =useLocalStorage();
+  const { getItemLS } = useLocalStorage();
   const keepLoggedIn = getItemLS('keepLoggedIn');
   const navigate = useNavigate();
-
+  
   useEffect(() => {
     const env = Utils.appEnvironment();
     setEnvironment(env);

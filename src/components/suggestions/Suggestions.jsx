@@ -7,10 +7,10 @@ import Avatar from '@components/avatar/Avatar';
 import Button from '@components/button/Button';
 import { suggestionsState } from '@redux/reducers/suggestions/suggestions.reducer';
 
-const Suggestions = (props) => {
+const Suggestions = () => {
   const users = useSelector((state) => suggestionsState(state).users);
   const navigate = useNavigate();
- 
+  
   return (
     <div className="suggestions-list-container" data-testid="suggestions-container">
       <div className="suggestions-header">
@@ -44,10 +44,6 @@ const Suggestions = (props) => {
       </div>
     </div>
   );
-};
-
-Suggestions.propTypes = {
-  
 };
 
 export default Suggestions;

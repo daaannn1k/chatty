@@ -14,8 +14,8 @@ export const userSlice = createSlice({
       state.token = token;
       state.profile = profile;
     },
-    clearUser: (state) => {
-      state = initialState;
+    clearUser: () => {
+     return initialState;
     },
     updateUserProfile: (state, action) => {
       state.profile = action.payload;

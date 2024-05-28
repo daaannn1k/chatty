@@ -1,6 +1,8 @@
 import { floor, random } from 'lodash';
 import { avatarColors } from '@services/utils/static-data';
 import { addUser, clearUser } from '@redux/reducers/user/user.reducer';
+import { addNotification, clearNotification } from '@redux/reducers/notifications/notification.reducer';
+import { clearSuggestions } from '@redux/reducers/suggestions/suggestions.reducer';
 
 export class Utils {
   static avatarColor() {
@@ -31,11 +33,20 @@ export class Utils {
   }
 
   static clearStore({ dispatch, removeStorageUsername, removeSessionPageReload, setLoggedIn }) {
+    dispatch(clearSuggestions());
     dispatch(clearUser());
-    //dispatch(clearNotification()) action;
+    dispatch(clearNotification());
     removeStorageUsername('username');
     removeSessionPageReload('pageReload');
     setLoggedIn('keepLoggedIn', false);
+  }
+
+  static dispatchNotification(message, type, dispatch) {
+    dispatch(addNotification({ message, type }));
+  }
+
+  static dispatchClearNotification(dispatch) {
+    dispatch(clearNotification());
   }
 
   static appEnvironment() {
@@ -70,5 +81,14 @@ export class Utils {
     items.push(item);
     setSettings(items);
     return items;
+  }
+
+  static appImageUrl(version, id) {
+    if(typeof version === 'string' && typeof id === 'string') {
+      version = version.replace(/['"]+/g, '')
+      id = id.replace(/['"]+/g, '')
+    }
+
+    return `https://res.cloudinary.com/diwokovnd/image/upload/v${version}/${id}`;
   }
 };

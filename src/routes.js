@@ -5,6 +5,7 @@ import { AuthTabs, ForgotPassword, ResetPassword } from '@pages/auth';
 import ProtectedRoute from '@pages/ProtectedRoute';
 import Error from '@pages/error/Error';
 import StreamsSkeleton from '@pages/social/streams/StreamsSkeleton';
+import NotificationSkeleton from '@pages/notifications/NotificationSkeleton';
 
 const Social = lazy(() => import('@pages/social/Social'));
 const Chat = lazy(() => import('@pages/chat/Chat'));
@@ -44,31 +45,52 @@ const AppRouter = () => {
         },
         {
           path: 'chat/messages',
-          element: <Chat />
+          element:  
+            <Suspense fallback={ <StreamsSkeleton/> }>
+              <Chat/>
+            </Suspense>
         },
         {
           path: 'people',
-          element: <People />
+          element: 
+            <Suspense fallback={ <StreamsSkeleton/> }>
+              <People/>
+            </Suspense>
         },
         {
           path: 'following',
-          element: <Following />
+          element: 
+            <Suspense fallback={ <StreamsSkeleton/> }>
+              <Following/>
+            </Suspense>
         },
         {
           path: 'followers',
-          element: <Followers />
+          element: 
+            <Suspense fallback={ <StreamsSkeleton/> }>
+              <Followers/>
+            </Suspense>
         },
         {
           path: 'photos',
-          element: <Photos />
+          element: 
+            <Suspense fallback={ <StreamsSkeleton/> }>
+              <Photos/>
+            </Suspense>
         },
         {
           path: 'notifications',
-          element: <Notifications />
+          element: 
+            <Suspense fallback={ <NotificationSkeleton /> }>
+              <Notifications/>
+            </Suspense>
         },
         {
           path: 'profile/:username',
-          element: <Profile />
+          element: 
+            <Suspense fallback={ <StreamsSkeleton/> }>
+              <Profile />
+            </Suspense>
         },
       ]
     },

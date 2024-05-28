@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -10,13 +10,12 @@ import useLocalStorage from '@hooks/useLocalStorage';
 import useSessionStorage from '@hooks/useSessionStorage';
 
 const ProtectedRoute = ({ element }) => {
-  const [ userData, setUserData ] = useState(null);
-  const [ isTokenValid, setIsTokenValid ] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { profile, token } = useSelector(state => getState(state));
   const { removeItemLS, setItemLS, getItemLS } = useLocalStorage();
   const { removeItemST, getItemST } = useSessionStorage();
+  
+  const { profile, token } = useSelector(state => getState(state));
   const keepLoggedIn = getItemLS('keepLoggedIn');
   const pageReload = getItemST('pageReload');
 
@@ -25,11 +24,8 @@ const ProtectedRoute = ({ element }) => {
           const response = await authService.checkCurrentUser();
 
           // dispatch converstaion list
-          setUserData(response.data.user);
-          setIsTokenValid(true);
           dispatch(addUser({ token: response.data.token, profile: response.data.user }));
       } catch (error) {
-        setIsTokenValid(false);
         setTimeout(async () => {
           Utils.clearStore({ dispatch, removeStorageUsername: removeItemLS, removeSessionPageReload: removeItemST, setLoggedIn: setItemLS });
           await authService.signOut();
@@ -41,14 +37,9 @@ const ProtectedRoute = ({ element }) => {
   useEffect(() => {
     getCurrentUser();
   }, [getCurrentUser])
-
-  if(keepLoggedIn || (!keepLoggedIn && userData) || (profile && token) || pageReload) {
-    if(!isTokenValid) {
-      
-      return <></>
-    } else {
-      return <>{element}</>
-    }
+ 
+  if(keepLoggedIn || (!!profile && !!token) || pageReload) {
+    return <>{element}</>
   } else {
     return <><Navigate to={'/'}/></>
   }
