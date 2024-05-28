@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import '@components/sidebar/Sidebar.scss';
 import { sideBarItems, fontAwesomeIcons } from '@services/utils/static-data';
 import { getState } from '@redux/reducers/user/user.reducer';
-import { ProfileUtils } from '@services/utils/profile-utils.service';
 
 const Sidebar = () => {
   const [sidebar, setSidebar] = useState([]);
@@ -15,8 +14,8 @@ const Sidebar = () => {
 
   const navigateToPage = (name, url) => {
     if(name === 'Profile') {
-      const searchParams = createSearchParams({ id: profile?._id, uid: profile?.uId}).toString();
-      url = `${url}?${searchParams}`;
+      const searchParams = createSearchParams({ id: profile?._id, uId: profile?.uId}).toString();
+      url = `${url}/${profile?.username}?${searchParams}`;
     }
 
     navigate(url);
